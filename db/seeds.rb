@@ -15,38 +15,48 @@ bob = User.find_or_create_by!(email: "bob@example.com") do |u|
   u.username   = "bobj"
 end
 
-# — Shows
+# — Festival
+festival = Festival.find_or_create_by!(name: "Fiddler's Field Festival")
+
+# — Stages
+main_stage = Stage.find_or_create_by!(name: "Main Stage", festival: festival)
+jazz_tent  = Stage.find_or_create_by!(name: "Jazz Tent", festival: festival)
+east_stage = Stage.find_or_create_by!(name: "East Stage", festival: festival)
+
+# — Shows (assigned to stages)
 show1 = Show.find_or_create_by!(
   artist:   "The Rockets",
   location: "Main Stage",
   date:     "2025-08-01",
-  time:     "18:00"
+  time:     "18:00",
+  stage_id: main_stage.id  # ← use .id here
 )
 
 show2 = Show.find_or_create_by!(
   artist:   "Jazz Trio",
   location: "Jazz Tent",
   date:     "2025-08-01",
-  time:     "19:30"
+  time:     "19:30",
+  stage_id: jazz_tent.id   # ← and here
 )
 
 show3 = Show.find_or_create_by!(
   artist:   "Indie Band",
   location: "East Stage",
   date:     "2025-08-02",
-  time:     "17:45"
+  time:     "17:45",
+  stage_id: east_stage.id  # ← and here
 )
 
-# — Alice’s schedule
-alice_schedule  = Schedule.find_or_create_by!(
+# — Alice’s Schedule
+alice_schedule = Schedule.find_or_create_by!(
   title: "Alice’s Picks",
-  user:  alice,
-  date:  "2025-08-01"
+  user: alice,
+  date: "2025-08-01"
 )
 
-# — Link shows to her schedule (no loop—just individual calls)
-ScheduleShow.find_or_create_by!(schedule: alice_schedule , show: show1)
-ScheduleShow.find_or_create_by!(schedule: alice_schedule , show: show2)
-
+# — Link shows to her schedule
+ScheduleShow.find_or_create_by!(schedule: alice_schedule, show: show1)
+ScheduleShow.find_or_create_by!(schedule: alice_schedule, show: show2)
 
 puts "Your Festival is Seeded 🌱🤲"
