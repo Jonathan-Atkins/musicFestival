@@ -2,6 +2,7 @@ class Show < ApplicationRecord
   belongs_to :stage
   has_many   :schedule_shows, dependent: :destroy
   has_many   :schedules, through: :schedule_shows
+  has_many   :users, through: :schedules
 
   validates :artist,    presence: true
   validates :location,  presence: true

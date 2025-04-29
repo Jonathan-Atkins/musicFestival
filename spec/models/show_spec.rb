@@ -5,6 +5,7 @@ RSpec.describe Show, type: :model do
     it { should belong_to(:stage) }
     it { should have_many(:schedule_shows).dependent(:destroy) }
     it { should have_many(:schedules).through(:schedule_shows) }
+    it { should have_many(:users).through(:schedules) }
   end
 
   describe 'validations' do
