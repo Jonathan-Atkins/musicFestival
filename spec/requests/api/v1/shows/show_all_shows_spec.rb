@@ -35,7 +35,7 @@ RSpec.describe 'List All Shows for a Festival', type: :request do
         expect(response).to_not be_successful
 
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:error]).to eq("Festival not found.")
+        expect(json[:error]).to eq("Festival or schedule not found.")
       end
     end
   end

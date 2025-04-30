@@ -1,12 +1,19 @@
 # app/controllers/api/v1/shows_controller.rb
 class Api::V1::ShowsController < ApplicationController
   def index
-    festival = Festival.find(params[:festival_id])
-    shows = Show.joins(:stage).where(stages: { festival_id: festival.id })
-
-    render json: ShowSerializer.new(shows)
+    if params[:festival_id]
+      festival = Festival.find(params[:festival_id])
+      shows = Show.joins(:stage).where(stages: { festival_id: festival.id })
+      render json: ShowSerializer.new(shows)
+    elsif params[:schedule_id]
+      schedule = Schedule.find(params[:schedule_id])
+      shows = schedule.shows
+      render json: ShowSerializer.new(shows)
+    else
+      render json: { error: "Missing context: festival_id or schedule_id required." }, status: :bad_request
+    end
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Festival not found." }, status: :not_found
+    render json: { error: "Festival or schedule not found." }, status: :not_found
   end
   
   def create
