@@ -1,7 +1,6 @@
 # db/seeds.rb
 require 'faker'
 
-# — Fun Festival & Artist Data
 FESTIVAL_NAMES = [
   'Coachella', 'Glastonbury', 'Lollapalooza', 'Bonnaroo', 'SXSW'
 ]
@@ -12,7 +11,6 @@ ARTIST_NAMES = [
   'Lana Del Rey', 'Arctic Monkeys', 'LCD Soundsystem'
 ]
 
-# — Festivals, Stages & Shows
 festivals = []
 stages_by_festival = []
 shows_by_festival = []
@@ -45,7 +43,6 @@ shows_by_festival = []
   shows_by_festival << shows
 end
 
-# — Users & Schedules
 users = []
 schedules = []
 
@@ -91,7 +88,6 @@ end
   end
 end
 
-# — Clear last user's schedule to test "empty schedule" edge case
 last_schedule = schedules.last
 ScheduleShow.where(schedule: last_schedule).delete_all
 
