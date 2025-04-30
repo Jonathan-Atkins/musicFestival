@@ -29,7 +29,6 @@ RSpec.describe 'User Creation', type: :request do
         expect(response).to_not be_successful
 
         json = JSON.parse(response.body, symbolize_names: true)
-        require 'pry'; binding.pry
         expect(json[:errors]).to include(
           "Last name can't be blank",
           "Username can't be blank",
