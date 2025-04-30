@@ -19,7 +19,7 @@ RSpec.describe 'Add Show to Schedule', type: :request do
         expect(response).to be_successful
 
         message = JSON.parse(response.body, symbolize_names: true)[:message]
-        expect(message).to eq("Show successfully added to schedule.")
+        expect(message).to eq("Show added to schedule successfully.")
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe 'Add Show to Schedule', type: :request do
 
         expect(response).to_not be_successful
 
-        data = JSON.parse(response.body, symbolize_names: true)[:data]
+        data = JSON.parse(response.body, symbolize_names: true)
         expect(data[:error]).to eq("User or schedule not found.")
       end
 
@@ -50,7 +50,7 @@ RSpec.describe 'Add Show to Schedule', type: :request do
 
         expect(response).to_not be_successful
 
-        data = JSON.parse(response.body, symbolize_names: true)[:data]
+        data = JSON.parse(response.body, symbolize_names: true)
         expect(data[:error]).to eq("User or schedule not found.")
       end
     end

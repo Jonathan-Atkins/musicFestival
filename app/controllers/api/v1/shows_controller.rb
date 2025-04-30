@@ -10,8 +10,15 @@ class Api::V1::ShowsController < ApplicationController
   end
   
   def create
-    schedule = Schedule.find(params[:schedule_id])
-    show = Show.find(params[:show_id])
+    user = User.find_by(id: params[:user_id])
+    schedule = Schedule.find_by(id: params[:schedule_id], user_id: user&.id)
+  
+    unless user && schedule
+      return render json: { error: "User or schedule not found." }, status: :not_found
+    end
+  
+    show = Show.find_by(id: params[:show_id])
+    return render json: { error: "Show ID must be provided." }, status: :bad_request unless show
   
     if schedule.shows.include?(show)
       render json: { error: "Show already exists in schedule." }, status: :unprocessable_entity
@@ -19,8 +26,6 @@ class Api::V1::ShowsController < ApplicationController
       schedule.shows << show
       render json: { message: "Show added to schedule successfully." }, status: :created
     end
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: "Schedule or show not found." }, status: :not_found
   end
 
   def destroy
