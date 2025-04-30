@@ -4,5 +4,6 @@ FactoryBot.define do
     location { Faker::Address.city } 
     date { Faker::Date.forward(days: 30) } 
     time { Faker::Time.forward(days: 30, period: :all) } 
+    stage 
   end
 end
