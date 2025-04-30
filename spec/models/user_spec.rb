@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'relationships' do
-    it {is_expected.to have_many :schedules }
-    it {is_expected.to have_many :shows }
-    end
+    it { is_expected.to have_one :schedule }
+    it { is_expected.to have_many(:shows).through(:schedule) }
+  end
 
   describe 'validations' do
     it { should validate_presence_of(:first_name) }

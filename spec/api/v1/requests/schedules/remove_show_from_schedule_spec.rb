@@ -20,6 +20,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         expect(response).to be_successful
         
         @schedule.reload
+        
         expect(@schedule.shows.count).to eq(2)
       end
     end
@@ -31,6 +32,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         expect(response.status).to eq(404)
         
         body = JSON.parse(response.body, symbolize_names: true)
+        
         expect(body[:errors].first[:detail]).to eq("Schedule not found")
       end
     
@@ -41,6 +43,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         expect(response.status).to eq(404)
         
         body = JSON.parse(response.body, symbolize_names: true)
+        
         expect(body[:errors].first[:detail]).to eq("Show not found in the schedule")
       end
     
@@ -53,6 +56,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         expect(response.status).to eq(404)
         
         body = JSON.parse(response.body, symbolize_names: true)
+        
         expect(body[:errors].first[:detail]).to eq("Show not found in the schedule")
       end
     end
