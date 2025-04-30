@@ -3,10 +3,12 @@ class Api::V1::SchedulesController < ApplicationController
     @user = User.find_by(id: params[:user_id])
 
     if @user
-      if @user.schedule.nil?
-        render json: []
+      @schedule = @user.schedule  
+
+      if @schedule.nil?
+        render json: { data: { attributes: { shows: [] } } }  
       else
-        render json: ScheduleSerializer.new(@user.schedule)
+        render json: ScheduleSerializer.new(@schedule)  
       end
     else
       render json: { errors: [{ detail: "User not found" }] }, status: :not_found

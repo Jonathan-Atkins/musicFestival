@@ -17,7 +17,7 @@ RSpec.describe 'Get a Users Schedule', type: :request do
     @empty_schedule = FactoryBot.create(:schedule, user: @user_empty_schedule)
   end
 
-  describe 'GET /api/v1/users/:id/schedule' do
+  describe 'GET /api/v1/users/:user_id/schedules/:id' do
     context 'happy path' do
       it 'returns the user schedule and associated shows' do
         get "/api/v1/users/#{@user_with_schedule.id}/schedules/#{@schedule.id}"
@@ -63,7 +63,7 @@ RSpec.describe 'Get a Users Schedule', type: :request do
       end
 
       it 'returns 404 if user ID is invalid format' do
-        get "/api/v1/users/abc/schedule"
+        get "/api/v1/users/abc/schedules/0"
 
         expect(response).to have_http_status(404)
       end
