@@ -10,6 +10,15 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def find
+    user = User.find_by_email(params[:email])
+    if user
+      render json: UserSerializer.new(user).serializable_hash, status: :ok
+    else
+      render json: { error: "User not found" }, status: :not_found
+    end
+  end
+
   private
 
   def user_params

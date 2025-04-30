@@ -16,4 +16,24 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:username) }
     it { should validate_presence_of(:birthday) }
   end
+
+  describe '.find_by_email' do
+    it 'returns the user if the email matches exactly' do
+      user = FactoryBot.create(:user, email: 'test@example.com')
+      found = User.find_by_email('test@example.com')
+
+      expect(found).to eq(user)
+    end
+
+    it 'returns the user if the email has different casing and whitespace' do
+      user = FactoryBot.create(:user, email: 'test@example.com')
+      found = User.find_by_email('  TEST@example.com ')
+
+      expect(found).to eq(user)
+    end
+
+    it 'returns nil if no user is found' do
+      expect(User.find_by_email('nonexistent@example.com')).to be_nil
+    end
+  end
 end

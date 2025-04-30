@@ -11,4 +11,8 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username,   presence: true
   validates :birthday,   presence: true
+
+  def self.find_by_email(email)
+    find_by(email: email.downcase.strip)
+  end
 end

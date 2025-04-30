@@ -11,4 +11,12 @@ class FestivalSerializer
       .uniq
       .count
   end
+
+  attribute :artists do |festival|
+    festival
+      .stages
+      .flat_map(&:shows)
+      .map(&:artist)
+      .uniq
+  end
 end
