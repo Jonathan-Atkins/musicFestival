@@ -16,22 +16,4 @@ class Api::V1::SchedulesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render json: { errors: [{ detail: "User not found" }] }, status: :not_found
   end
-
-  def destroy
-    @user = User.find_by(id: params[:user_id])
-    @schedule = @user&.schedule
-  
-    if @schedule && @schedule.id == params[:schedule_id].to_i
-      @show = @schedule.shows.find_by(id: params[:show_id])
-  
-      if @show
-        @schedule.shows.delete(@show)
-        render json: { message: "Show successfully removed from schedule." }, status: :ok
-      else
-        render json: { errors: [{ detail: "Show not found in the schedule" }] }, status: :not_found
-      end
-    else
-      render json: { errors: [{ detail: "Schedule not found" }] }, status: :not_found
-    end
-  end
 end

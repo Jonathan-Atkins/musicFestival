@@ -17,7 +17,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
 
         delete "/api/v1/users/#{@user.id}/schedules/#{@schedule.id}/shows/#{@shows.first.id}"
 
-        expect(response).to be_successful
+        expect(response.status).to eq(200) # check for successful status
         
         @schedule.reload
         
@@ -32,8 +32,8 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         expect(response.status).to eq(404)
         
         body = JSON.parse(response.body, symbolize_names: true)
-        
-        expect(body[:errors].first[:detail]).to eq("Schedule not found")
+
+        expect(body[:error]).to eq("Show or schedule not found.")
       end
     
       it 'returns 404 if the show does not exist in the schedule' do
@@ -44,7 +44,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         
         body = JSON.parse(response.body, symbolize_names: true)
         
-        expect(body[:errors].first[:detail]).to eq("Show not found in the schedule")
+        expect(body[:error]).to eq("Show or schedule not found.")
       end
     
       it 'returns 404 if the user tries to delete a show from an empty schedule' do
@@ -57,7 +57,7 @@ RSpec.describe 'Remove Show from Schedule', type: :request do
         
         body = JSON.parse(response.body, symbolize_names: true)
         
-        expect(body[:errors].first[:detail]).to eq("Show not found in the schedule")
+        expect(body[:error]).to eq("Show or schedule not found.")
       end
     end
   end

@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
-  # Health check route to verify the app's status
   get "up" => "rails/health#show", as: :rails_health_check
 
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:show, :index] do
-        resources :schedules, only: [:index, :show] do
-          delete 'shows/:show_id', to: 'schedules#destroy', as: :remove_show
+      resources :users, only: [:create, :index, :show] do
+        resources :schedules, only: [:index, :show, :create] do
+          # Nested shows under schedules, with destroy action for removing shows
+          resources :shows, only: [:create, :destroy]
         end
       end
-  
-      resources :festivals, only: [:show, :index] do
+
+      resources :festivals, only: [:index, :show] do
         resources :schedules, only: [:index, :create] do
           post 'add_show', to: 'schedules#add_show', as: :add_show
         end
