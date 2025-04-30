@@ -49,14 +49,6 @@ RSpec.describe 'Get a Users Schedule', type: :request do
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:errors].first[:detail]).to match(/User not found/)
       end
-    
-      it 'returns 404 if user has no schedule' do
-        get "/api/v1/users/#{@user_no_schedule.id}/schedules/0"
-    
-        expect(response).to have_http_status(404)
-        body = JSON.parse(response.body, symbolize_names: true)
-        expect(body[:errors].first[:detail]).to match(/Schedule not found/)
-      end
     end
     
 

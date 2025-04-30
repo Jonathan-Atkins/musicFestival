@@ -1,4 +1,16 @@
 # db/seeds.rb
+require 'faker'
+
+# — Fun Festival & Artist Data
+FESTIVAL_NAMES = [
+  'Coachella', 'Glastonbury', 'Lollapalooza', 'Bonnaroo', 'SXSW'
+]
+
+ARTIST_NAMES = [
+  'Radiohead', 'Beyoncé', 'Kendrick Lamar', 'Taylor Swift',
+  'Billie Eilish', 'The Strokes', 'Tame Impala', 'Daft Punk',
+  'Lana Del Rey', 'Arctic Monkeys', 'LCD Soundsystem'
+]
 
 # — Festivals, Stages & Shows
 festivals = []
@@ -6,24 +18,25 @@ stages_by_festival = []
 shows_by_festival = []
 
 3.times do |f|
-  fest = Festival.find_or_create_by!(name: "Festival #{f + 1}")
+  fest_name = FESTIVAL_NAMES[f] || Faker::Music::Festival.festival
+  fest = Festival.find_or_create_by!(name: fest_name)
   festivals << fest
 
   stages = []
   3.times do |s|
-    stage = Stage.find_or_create_by!(name: "Festival #{f + 1} - Stage #{s + 1}", festival: fest)
+    stage = Stage.find_or_create_by!(name: "#{fest_name} - Stage #{s + 1}", festival: fest)
     stages << stage
   end
   stages_by_festival << stages
 
   shows = []
   stages.each_with_index do |stage, idx|
-    3.times do |i|
+    3.times do
       show = Show.find_or_create_by!(
-        artist:   "Artist F#{f + 1}S#{idx + 1}##{i + 1}",
+        artist:   ARTIST_NAMES.sample || Faker::Music.band,
         location: stage.name,
-        date:     Date.today + 30,
-        time:     Time.parse("18:00"),
+        date:     Date.today + rand(1..60),
+        time:     Time.parse("#{rand(14..22)}:00"),
         stage:    stage
       )
       shows << show
@@ -38,8 +51,8 @@ schedules = []
 
 45.times do |n|
   user = User.find_or_create_by!(email: "user#{n + 1}@example.com") do |u|
-    u.first_name = "User#{n + 1}"
-    u.last_name  = "Example"
+    u.first_name = Faker::Name.first_name
+    u.last_name  = Faker::Name.last_name
     u.birthday   = Date.new(1990, 1, (n % 28) + 1)
     u.username   = "user#{n + 1}"
   end
@@ -77,5 +90,9 @@ end
     end
   end
 end
+
+# — Clear last user's schedule to test "empty schedule" edge case
+last_schedule = schedules.last
+ScheduleShow.where(schedule: last_schedule).delete_all
 
 puts "Your Festival is Seeded 🌱🤲"
