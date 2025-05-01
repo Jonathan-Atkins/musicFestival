@@ -4,6 +4,7 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
+      user.create_schedule
       render json: UserSerializer.new(user).serializable_hash, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
