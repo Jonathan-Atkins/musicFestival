@@ -1,0 +1,20 @@
+class ImageGateway
+  def self.search_photos(search_word, params= {})
+    response = conn.get("/search/photos") do |req|
+      req.params[:client_id] = Rails.application.credentials.unsplash[:access_key]
+      req.params[:query] = search_word
+    end
+    Image.new(parse_data(response)[:results])
+  end
+
+  def self.conn
+    conn = Faraday.new("https://api.unsplash.com")
+    conn
+  end
+
+  def self.parse_data(data)
+    JSON.parse(data.body, symbolize_names: true)
+  end
+
+  private_class_method :conn, :parse_data
+end

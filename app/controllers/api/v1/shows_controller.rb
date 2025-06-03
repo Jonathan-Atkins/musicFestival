@@ -18,7 +18,7 @@ class Api::V1::ShowsController < ApplicationController
   
   def create
     user = User.find_by(id: params[:user_id])
-    schedule = Schedule.find_by(id: params[:schedule_id], user_id: user&.id)
+    schedule = Schedule.find_by(id: params[:schedule_id], user_id: user&.id) ## this find_by is ok because we are passing two parameters
   
     unless user && schedule
       return render json: { error: "User or schedule not found." }, status: :not_found
