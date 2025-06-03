@@ -3,6 +3,7 @@ class ImageGateway
     response = conn.get("/search/photos") do |req|
       req.params[:client_id] = Rails.application.credentials.unsplash[:access_key]
       req.params[:query] = search_word
+      req.params[:per_page] = 1
     end
     Image.new(parse_data(response)[:results])
   end
