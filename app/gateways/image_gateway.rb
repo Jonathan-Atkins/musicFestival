@@ -5,16 +5,15 @@ class ImageGateway
       req.params[:query] = search_word
       req.params[:per_page] = 1
     end
-    Image.new(parse_data(response)[:results])
+    Image.new(parse_data(response))
   end
 
   def self.conn
-    conn = Faraday.new("https://api.unsplash.com")
-    conn
+    Faraday.new("https://api.unsplash.com")
   end
 
   def self.parse_data(data)
-    JSON.parse(data.body, symbolize_names: true)
+    json = JSON.parse(data.body, symbolize_names: true)[:results]
   end
 
   private_class_method :conn, :parse_data
