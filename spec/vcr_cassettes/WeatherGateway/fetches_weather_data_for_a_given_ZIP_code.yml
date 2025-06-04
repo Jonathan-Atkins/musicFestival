@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openweathermap.org/data/2.5/weather?appid=<OPENWEATHER_API_KEY>&units=imperial&zip=89032,us
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Wed, 04 Jun 2025 19:44:04 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '503'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?units=imperial&zip=89032%2cus"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":-115.1709,"lat":36.218},"weather":[{"id":800,"main":"Clear","description":"clear
+        sky","icon":"01d"}],"base":"stations","main":{"temp":89.04,"feels_like":86.02,"temp_min":86.65,"temp_max":92.17,"pressure":1006,"humidity":25,"sea_level":1006,"grnd_level":935},"visibility":10000,"wind":{"speed":5.75,"deg":130},"clouds":{"all":0},"dt":1749066244,"sys":{"type":1,"id":6171,"country":"US","sunrise":1749039836,"sunset":1749092072},"timezone":-25200,"id":0,"name":"North
+        Las Vegas","cod":200}'
+  recorded_at: Wed, 04 Jun 2025 19:44:04 GMT
+recorded_with: VCR 6.3.1
