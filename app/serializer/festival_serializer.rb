@@ -1,7 +1,7 @@
 class FestivalSerializer
   include JSONAPI::Serializer
 
-  attribute :name
+  attributes :name, :zip_code
 
   attribute :attendee_count do |festival|
     festival

@@ -1,0 +1,22 @@
+# spec/serializers/festival_serializer_spec.rb
+require 'rails_helper'
+
+RSpec.describe FestivalSerializer do
+  it 'includes name, zip_code, attendee_count, and artists' do
+    festival = FactoryBot.create(:festival, zip_code: '90210')
+    stage = FactoryBot.create(:stage, festival: festival)
+    show = FactoryBot.create(:show, stage: stage, artist: 'Daft Punk')
+    user = FactoryBot.create(:user)
+    schedule = FactoryBot.create(:schedule, user: user)
+    FactoryBot.create(:schedule_show, schedule: schedule, show: show)
+
+    serialized = FestivalSerializer.new(festival).serializable_hash
+
+    expect(serialized[:data][:attributes]).to include(
+      name: festival.name,
+      zip_code: '90210',
+      attendee_count: 1,
+      artists: ['Daft Punk']
+    )
+  end
+end

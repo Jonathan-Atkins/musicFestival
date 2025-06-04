@@ -17,7 +17,10 @@ shows_by_festival = []
 
 3.times do |f|
   fest_name = FESTIVAL_NAMES[f] || Faker::Music::Festival.festival
-  fest = Festival.find_or_create_by!(name: fest_name)
+ fest = Festival.find_or_create_by!(name: fest_name) do |f|
+  f.zip_code = Faker::Address.zip_code
+end
+
   festivals << fest
 
   stages = []
