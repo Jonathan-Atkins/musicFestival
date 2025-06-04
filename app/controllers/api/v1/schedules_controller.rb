@@ -1,5 +1,6 @@
 class Api::V1::SchedulesController < ApplicationController
   def show
+    require 'pry'; binding.pry
     @user = User.find_by(id: params[:user_id])
 
     if @user
