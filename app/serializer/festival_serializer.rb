@@ -19,4 +19,19 @@ class FestivalSerializer
       .map(&:artist)
       .uniq
   end
+
+  attribute :weather do |festival|
+    begin
+      data = WeatherGateway.fetch_weather(festival.zip_code)
+      {
+        description: data.description,
+        temperature: data.temperature
+      }
+    rescue => e
+      {
+        description: "Unavailable",
+        temperature: "?"
+      }
+    end
+  end 
 end

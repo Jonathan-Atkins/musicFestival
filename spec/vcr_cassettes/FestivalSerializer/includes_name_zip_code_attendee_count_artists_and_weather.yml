@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openweathermap.org/data/2.5/weather?appid=<OPENWEATHER_API_KEY>&units=imperial&zip=90210,us
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Wed, 04 Jun 2025 21:24:59 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '515'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?units=imperial&zip=90210%2cus"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":-118.4065,"lat":34.0901},"weather":[{"id":802,"main":"Clouds","description":"scattered
+        clouds","icon":"03d"}],"base":"stations","main":{"temp":71.06,"feels_like":70.88,"temp_min":65.19,"temp_max":77.95,"pressure":1012,"humidity":64,"sea_level":1012,"grnd_level":991},"visibility":10000,"wind":{"speed":10.36,"deg":240},"clouds":{"all":40},"dt":1749072299,"sys":{"type":2,"id":2098371,"country":"US","sunrise":1749040953,"sunset":1749092508},"timezone":-25200,"id":0,"name":"Beverly
+        Hills","cod":200}'
+  recorded_at: Wed, 04 Jun 2025 21:24:59 GMT
+recorded_with: VCR 6.3.1
