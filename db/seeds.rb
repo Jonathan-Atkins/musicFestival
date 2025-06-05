@@ -1,26 +1,16 @@
-# db/seeds.rb
 require 'faker'
 
-FESTIVAL_NAMES = [
-  'Coachella', 'Glastonbury', 'Lollapalooza', 'Bonnaroo', 'SXSW'
-]
-
-ARTIST_NAMES = [
-  'Radiohead', 'Beyoncé', 'Kendrick Lamar', 'Taylor Swift',
-  'Billie Eilish', 'The Strokes', 'Tame Impala', 'Daft Punk',
-  'Lana Del Rey', 'Arctic Monkeys', 'LCD Soundsystem'
-]
+REAL_ZIP_CODES = ['90210', '10001', '60601'] # Beverly Hills, Manhattan, Chicago
 
 festivals = []
 stages_by_festival = []
 shows_by_festival = []
 
 3.times do |f|
-  fest_name = FESTIVAL_NAMES[f] || Faker::Music::Festival.festival
- fest = Festival.find_or_create_by!(name: fest_name) do |f|
-  f.zip_code = Faker::Address.zip_code
-end
-
+  fest_name = "#{Faker::Music.genre} Fest #{f + 1}"
+  fest = Festival.find_or_initialize_by(name: fest_name)
+  fest.zip_code = REAL_ZIP_CODES[f]
+  fest.save!
   festivals << fest
 
   stages = []
@@ -31,10 +21,10 @@ end
   stages_by_festival << stages
 
   shows = []
-  stages.each_with_index do |stage, idx|
+  stages.each do |stage|
     3.times do
       show = Show.find_or_create_by!(
-        artist:   ARTIST_NAMES.sample || Faker::Music.band,
+        artist:   Faker::Music.band,
         location: stage.name,
         date:     Date.today + rand(1..60),
         time:     Time.parse("#{rand(14..22)}:00"),

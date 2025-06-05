@@ -4,7 +4,7 @@ RSpec.describe WeatherGateway, :vcr do
   it 'fetches weather data for a given ZIP code' do
     zip_code = '89032'
     weather  = WeatherGateway.fetch_weather(zip_code)
-
+require 'pry'; binding.pry
     expect(weather).to be_a(Weather)
     expect(weather.city).to eq('North Las Vegas')
     expect(weather.description).to be_a(String)

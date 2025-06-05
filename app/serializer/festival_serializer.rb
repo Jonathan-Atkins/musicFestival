@@ -24,14 +24,17 @@ class FestivalSerializer
     begin
       data = WeatherGateway.fetch_weather(festival.zip_code)
       {
-        day_outlook: data.description,
-        temperature: data.temperature
+        day_outlook: data.description.split.map(&:capitalize).join(' '),
+        temperature_low: "#{data.temp_min} 🥶",
+        temperature_high: "#{data.temp_max}🥵"
       }
     rescue => e
+      puts "❌ Weather fetch failed for #{festival.name} (#{festival.zip_code}): #{e.class} - #{e.message}"
       {
-        day_outlook: "Unavailable",
-        temperature: "?"
+        day_outlook: "Something went wrong - ,maybe look outside yourself ",
+        temperature_low: "N/a",
+        temperature_high: "N/a"
       }
     end
-  end 
+  end
 end
