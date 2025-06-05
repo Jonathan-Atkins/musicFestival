@@ -24,12 +24,12 @@ class FestivalSerializer
     begin
       data = WeatherGateway.fetch_weather(festival.zip_code)
       {
-        description: data.description,
+        day_outlook: data.description,
         temperature: data.temperature
       }
     rescue => e
       {
-        description: "Unavailable",
+        day_outlook: "Unavailable",
         temperature: "?"
       }
     end

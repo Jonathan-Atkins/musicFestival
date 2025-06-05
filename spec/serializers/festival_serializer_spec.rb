@@ -20,7 +20,7 @@ RSpec.describe FestivalSerializer, :vcr do
     )
 
     expect(attributes[:weather]).to be_a(Hash)
-    expect(attributes[:weather]).to have_key(:description)
+    expect(attributes[:weather]).to have_key(:day_outlook)
     expect(attributes[:weather]).to have_key(:temperature)
   end
 end
