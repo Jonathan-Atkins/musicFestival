@@ -4,5 +4,4 @@ class Schedule < ApplicationRecord
   has_many :shows, through: :schedule_shows
 
   validates :title, presence: true
-  validates :date, presence: true
 end
