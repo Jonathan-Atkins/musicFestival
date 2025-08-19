@@ -51,7 +51,6 @@ schedules = []
   schedule = Schedule.find_or_create_by!(
     title: "#{user.username}'s Schedule",
     user:  user,
-    date:  Date.today
   )
   schedules << schedule
 end
