@@ -18,13 +18,15 @@ class Api::V1::ShowsController < ApplicationController
   
   def create
     user = User.find_by(id: params[:user_id])
-    schedule = user.schedule
-    unless user && schedule
-      return render json: { error: "User or schedule not found." }, status: :not_found
-    end
+    return render json: { error: "User not found" }, status: :not_found unless user
+
+    schedule = Schedule.find_by(id: params[:schedule_id], user_id: user.id)
+    return render json: { error: "Schedule not found for this user" }, status: :not_found unless schedule
+    
+    return render json: { error: "Show ID must be provided" }, status: :bad_request if params[:show_id].blank?
   
     show = Show.find_by(id: params[:show_id])
-    return render json: { error: "Show ID must be provided." }, status: :bad_request unless show
+    return render json: { error: "Show not found" }, status: :not_found unless show
   
     if schedule.shows.include?(show)
       render json: { error: "Show already exists in schedule." }, status: :unprocessable_entity
