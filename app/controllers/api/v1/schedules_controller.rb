@@ -1,23 +1,23 @@
 #Shows all of the events a user is attending
 class Api::V1::SchedulesController < ApplicationController
-  def show #change to index to show all of a users shows
-    require 'pry'; binding.pry
-    @user = User.find_by(id: params[:user_id])
+  before_action :set_user
 
-    if @user
-      @schedule = @user.schedule  
+  def show
+    return render_not_found("User not found") unless @user
 
-      if @schedule.nil?
-        render json: { data: { attributes: { shows: [] } } }  
-      else
-        render json: ScheduleSerializer.new(@schedule)  
-      end
-    else
-      render json: { errors: [{ detail: "User not found" }] }, status: :not_found
-    end
+    schedule = @user.schedule
+    return render_not_found("Schedule not found") unless schedule
+    return render_not_found("Schedule does not belong to user") unless schedule.id.to_s == params[:id].to_s #Ownership guard: if the :id in the URL doesn’t match this user’s schedule ID, return 404.
 
-  rescue ActiveRecord::RecordNotFound
-    render json: { errors: [{ detail: "User not found" }] }, status: :not_found
+    render json: ScheduleSerializer.new(schedule), status: :ok
   end
-end
- 
+
+  private
+
+  def set_user
+    @user = User.find_by(id: params[user_id])
+  end
+
+  def render_not_found(detail)
+    render json: { errors: [{detail: detail}] }, status: :not_found
+  end
