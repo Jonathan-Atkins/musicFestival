@@ -10,7 +10,6 @@ class ScheduleSerializer
         {
           id:       show.id,
           artist:   show.artist,
-          date:     show.date.to_s,
           location: show.location,
           time:     show.time.to_s
         }
