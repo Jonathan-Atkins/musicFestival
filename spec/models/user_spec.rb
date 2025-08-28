@@ -14,9 +14,22 @@ RSpec.describe User, type: :model do
     it { should allow_value('user@example.com').for(:email) }
     it { should_not allow_value('invalid_email').for(:email) }
     it { should validate_presence_of(:username) }
+    it { should validate_uniqueness_of(:username).case_insensitive }
     it { should validate_presence_of(:birthday) }
   end
 
+    describe 'callbacks' do
+    it 'downcases and trims email before validation' do
+      user = FactoryBot.build(:user, email: '  TEST@Example.COM ')
+      expect { user.validate }.to change { user.email }.to('test@example.com')
+    end
+
+    it 'auto-creates a schedule after create' do
+      user = FactoryBot.create(:user)
+      expect(user.schedule).to be_present
+      expect(user.schedule.title).to include(user.first_name) # optional: asserts naming format
+    end
+  end
   describe '.find_by_email' do
     it 'returns the user if the email matches exactly' do
       user = FactoryBot.create(:user, email: 'test@example.com')
