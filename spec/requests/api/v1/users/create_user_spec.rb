@@ -18,6 +18,7 @@ RSpec.describe 'User Creation', type: :request do
         expect(attrs[:email]).to eq(user_attrs[:email])
         expect(attrs[:username]).to eq(user_attrs[:username])
         expect(attrs[:birthday]).to eq(user_attrs[:birthday].to_s)
+        expect(session[:user_id]).to eq(json[:id].to_i)
       end
     end
 

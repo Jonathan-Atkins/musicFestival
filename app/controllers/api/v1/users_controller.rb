@@ -4,6 +4,7 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
+      log_in(user)
       render json: UserSerializer.new(user).serializable_hash, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
@@ -13,6 +14,7 @@ class Api::V1::UsersController < ApplicationController
   def find
     user = User.find_by_email(params[:email])
     if user
+      log_in(user)
       render json: UserSerializer.new(user).serializable_hash, status: :ok
     else
       render json: { error: "User not found" }, status: :not_found

@@ -14,6 +14,9 @@ Rails.application.routes.draw do
         resources :schedules, only: [:index, :create]
         resources :shows, only: [:index]
       end
+
+      get :me, to: "sessions#show"
+      delete :logout, to: "sessions#destroy"
     end
   end
 end

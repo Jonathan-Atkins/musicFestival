@@ -40,5 +40,9 @@ module CommunityGarden
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Enable cookie based sessions for API clients.
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, Rails.application.config.session_options
   end
 end

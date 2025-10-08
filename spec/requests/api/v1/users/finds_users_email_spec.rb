@@ -21,6 +21,7 @@ RSpec.describe 'Find User by Email', type: :request do
         expect(attributes[:last_name]).to eq(user.last_name)
         expect(attributes[:username]).to eq(user.username)
         expect(attributes[:birthday]).to eq(user.birthday.to_s)
+        expect(session[:user_id]).to eq(user.id)
       end
     end
 
