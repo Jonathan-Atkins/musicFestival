@@ -41,13 +41,6 @@ module CommunityGarden
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    # Enable cookie based sessions for API clients.
-    config.session_store :cookie_store,
-                         key: "happy_feet_music_festival",
-                         httponly: true,
-                         secure: Rails.env.production?,
-                         same_site: :lax
-
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
   end

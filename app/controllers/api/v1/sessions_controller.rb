@@ -1,5 +1,5 @@
 class Api::V1::SessionsController < ApplicationController
-  def show
+  def me
     if current_user
       render json: UserSerializer.new(current_user).serializable_hash, status: :ok
     else
