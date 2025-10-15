@@ -58,10 +58,11 @@ async function getCurrentUser(): Promise<User | null> {
   }
 }
 
-async function findUserByEmail(email: string): Promise<User> {
-  const payload = await fetchJson<{ data: { id: string; attributes: User } }>(
-    `${API_BASE_URL}/users/find?email=${encodeURIComponent(email)}`
-  );
+async function createSession(email: string): Promise<User> {
+  const payload = await fetchJson<{ data: { id: string; attributes: User } }>(`${API_BASE_URL}/login`, {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
 
   const { id, attributes } = payload.data;
   return { ...attributes, id };
@@ -103,9 +104,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = useCallback(async (email: string) => {
-    const foundUser = await findUserByEmail(email);
-    setUser(foundUser);
-    return foundUser;
+    const authenticatedUser = await createSession(email);
+    setUser(authenticatedUser);
+    return authenticatedUser;
   }, []);
 
   const logout = useCallback(async () => {

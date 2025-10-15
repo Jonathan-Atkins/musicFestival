@@ -1,16 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe 'Current session', type: :request do
-  describe 'GET /api/v1/me' do
-    it 'returns the current user when the session is valid' do
+RSpec.describe 'Session management', type: :request do
+  describe 'POST /api/v1/login' do
+    it 'logs the user in and returns their profile' do
       user = FactoryBot.create(:user)
 
       post '/api/v1/login', params: { email: user.email }
-      expect(session[:user_id]).to eq(user.id)
-
-      get '/api/v1/me'
 
       expect(response).to be_successful
+      expect(session[:user_id]).to eq(user.id)
 
       json = JSON.parse(response.body, symbolize_names: true)[:data]
       attributes = json[:attributes]
@@ -19,13 +17,13 @@ RSpec.describe 'Current session', type: :request do
       expect(attributes[:email]).to eq(user.email)
     end
 
-    it 'returns unauthorized when there is no active session' do
-      get '/api/v1/me'
+    it 'returns unauthorized when the email is invalid' do
+      post '/api/v1/login', params: { email: 'missing@example.com' }
 
       expect(response).to have_http_status(:unauthorized)
 
       json = JSON.parse(response.body, symbolize_names: true)
-      expect(json[:error]).to eq('Not authenticated')
+      expect(json[:error]).to eq('Invalid email')
     end
   end
 end
