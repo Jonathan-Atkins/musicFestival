@@ -8,6 +8,8 @@ import {
   ReactNode,
 } from 'react';
 
+const API_BASE_URL = 'http://localhost:3000/api/v1';
+
 type User = {
   id: string;
   first_name: string;
@@ -48,7 +50,7 @@ async function fetchJson<T>(input: RequestInfo, init?: RequestInit): Promise<T> 
 
 async function getCurrentUser(): Promise<User | null> {
   try {
-    const payload = await fetchJson<{ data: { id: string; attributes: User } }>('http://localhost:3000/api/v1/me');
+    const payload = await fetchJson<{ data: { id: string; attributes: User } }>(`${API_BASE_URL}/me`);
     const { id, attributes } = payload.data;
     return { ...attributes, id };
   } catch (error) {
@@ -58,7 +60,7 @@ async function getCurrentUser(): Promise<User | null> {
 
 async function findUserByEmail(email: string): Promise<User> {
   const payload = await fetchJson<{ data: { id: string; attributes: User } }>(
-    `http://localhost:3000/api/v1/users/find?email=${encodeURIComponent(email)}`
+    `${API_BASE_URL}/users/find?email=${encodeURIComponent(email)}`
   );
 
   const { id, attributes } = payload.data;
@@ -66,7 +68,7 @@ async function findUserByEmail(email: string): Promise<User> {
 }
 
 async function destroySession(): Promise<void> {
-  const response = await fetch('http://localhost:3000/api/v1/logout', {
+  const response = await fetch(`${API_BASE_URL}/logout`, {
     method: 'DELETE',
     credentials: 'include',
   });
