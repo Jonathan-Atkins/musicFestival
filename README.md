@@ -245,3 +245,11 @@ Made with rhythm by **Jonathan Atkins**
 ---
 
 > “Feet, don’t fail me now…” — *Happy Feet*
+### Sessions
+
+| Verb | Endpoint | Description                     |
+| ---- | -------- | ------------------------------- |
+| POST | /login   | Start a session for a user      |
+| GET  | /me      | Return the currently logged-in user |
+| DELETE | /logout | End the current session         |
+

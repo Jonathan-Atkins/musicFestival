@@ -44,14 +44,14 @@ module CommunityGarden
     session_cookie_settings = {
       key: "_music_festival_session",
       httponly: true,
-      secure: !Rails.env.development?,
-      same_site: :none
+      secure: Rails.env.production?,
+      same_site: :lax
     }
 
     config.session_store :cookie_store, **session_cookie_settings
 
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
-    config.action_dispatch.cookies_same_site_protection = :none
+    config.action_dispatch.cookies_same_site_protection = :lax
   end
 end
