@@ -58,11 +58,10 @@ async function getCurrentUser(): Promise<User | null> {
   }
 }
 
-async function createSession(email: string): Promise<User> {
-  const payload = await fetchJson<{ data: { id: string; attributes: User } }>(`${API_BASE_URL}/login`, {
-    method: 'POST',
-    body: JSON.stringify({ email }),
-  });
+async function findUserByEmail(email: string): Promise<User> {
+  const payload = await fetchJson<{ data: { id: string; attributes: User } }>(
+    `${API_BASE_URL}/users/find?email=${encodeURIComponent(email)}`
+  );
 
   const { id, attributes } = payload.data;
   return { ...attributes, id };
