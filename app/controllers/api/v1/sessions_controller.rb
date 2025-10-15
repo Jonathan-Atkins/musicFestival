@@ -11,4 +11,10 @@ class Api::V1::SessionsController < ApplicationController
     log_out
     head :no_content
   end
+
+  private
+
+  def session_params
+    params.permit(:email)
+  end
 end

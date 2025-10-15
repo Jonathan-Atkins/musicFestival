@@ -103,9 +103,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = useCallback(async (email: string) => {
-    const foundUser = await findUserByEmail(email);
-    setUser(foundUser);
-    return foundUser;
+    const authenticatedUser = await createSession(email);
+    setUser(authenticatedUser);
+    return authenticatedUser;
   }, []);
 
   const logout = useCallback(async () => {
