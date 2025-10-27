@@ -1,0 +1,11 @@
+app = "your-app-name" # Replace with your Fly.io app name
+primary_region = "iad" # Or your preferred region
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+
+[deploy]
+  release_command = "/rails/bin/rails db:migrate"
