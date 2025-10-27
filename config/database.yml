@@ -79,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: api_starter_production
-  username: api_starter
-  password: <%= ENV["API_STARTER_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
