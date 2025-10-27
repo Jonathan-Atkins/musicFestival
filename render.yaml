@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: music-festival-backend
+    runtime: ruby
+    buildCommand: bundle install && bundle exec rake db:migrate
+    startCommand: bundle exec rails server
+    plan: free
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
