@@ -69,6 +69,40 @@ Frontend repo setup (in /client or wherever it lives):
 ```
 ```
 
+## 🚢 Deployment on Fly.io
+
+Follow these steps to deploy the Rails API to Fly.io's free tier:
+
+1. **Initialize the Fly application**
+   ```bash
+   fly launch --no-deploy
+   ```
+   Choose a region, reuse the existing `Dockerfile`, and decline the initial deploy. Commit the generated `fly.toml` so Fly's builders can read it.
+
+2. **Provision PostgreSQL and attach it**
+   ```bash
+   fly pg create --name <app-name>-db
+   fly postgres attach <app-name>-db --app <app-name>
+   ```
+   Attaching injects the `DATABASE_URL` secret referenced by `config/database.yml`.
+
+3. **Provide Rails secrets**
+   ```bash
+   fly secrets set RAILS_MASTER_KEY=$(cat config/master.key)
+   fly secrets set SECRET_KEY_BASE=$(bundle exec rails secret)
+   fly secrets set OPEN_WEATHER_API_KEY=your_weather_api_key
+   ```
+   `SECRET_KEY_BASE` must be generated with `bundle exec rails secret` (or `bin/rails secret`) so it's at least 32 bytes long; otherwise Rails will raise `ArgumentError: key must be 16 bytes` when the release command runs.
+
+4. **Deploy and monitor**
+   ```bash
+   fly deploy --remote-only
+   fly logs
+   ```
+   The release command defined in `fly.toml` executes `rails db:prepare`, which creates the database and runs migrations during each deploy.
+
+After the API is live, point the frontend's `VITE_API_URL` at the Fly app URL and update CORS settings (`config/initializers/cors.rb`) to include the deployed frontend domain.
+
 ## 🏋️ Seeded Data
 
 Happy Feet ships with:
